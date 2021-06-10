@@ -180,6 +180,11 @@ class Header extends Component {
             header: { 'Content-Type': 'application/json' },
             data: obj
         }).then(result => {
+            debugger
+            if(result.data.data=="Use another email"){
+                window.alert("This email is already used, try with another email")
+                return;
+            }
             localStorage.setItem("user", JSON.stringify(result.data.user));
             localStorage.setItem("isLoggedIn", true);
             this.setState({
