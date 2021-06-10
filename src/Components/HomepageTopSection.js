@@ -114,7 +114,7 @@ class HomePageTopSection extends Component {
                 </div>
                 <div className="locationOption row">
                     <div className=" col-12 text-center col-lg-6 col-md-5 location-wrapper text-lg-end  text-sm-center text-md-end" >
-                        <select className="locationDropDown" onChange={(event) => { this.onOptionChanged(event) }}>
+                        <select className="locationDropDown col-6" onChange={(event) => { this.onOptionChanged(event) }}>
                             <option value="0" disabled selected>Select Location</option>
                             {cities.map((item, index) => {
                                 return <option key={index} value={item.city_id + " " + item.city}>{item.name},{item.city} </option>

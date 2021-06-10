@@ -28,14 +28,15 @@ const customStyles1 = {
     content: {
         top: '5%',
         left: '70%',
-        right: 'auto',
-        bottom: 'auto',
+        right: '0',
+        bottom: '0',
         marginRight: '0',
         // transform: 'translate(-50%, -50%)',
         boxShadow: '0 3px 6px 0 rgba(0, 0, 0, 0.16)',
         width: '350px',
         overflow: 'scroll',
-        'max-height': '500px'
+        'max-height': '500px',
+        backgroundColor:'white'
 
 
     }
@@ -58,7 +59,9 @@ class Header extends Component {
             loginError: undefined,
             singUpError: undefined,
             isUserDashBordOpen: false,
-            orderDetails: []
+            orderDetails: [],
+            isMyProfileOpen: false
+
         };
         this.userDastbord = this.userDastbord.bind(this);
         this.showOrderDetails = this.showOrderDetails.bind(this);
@@ -117,7 +120,7 @@ class Header extends Component {
     }
     handleLogin = () => {
         // call the API to login the user
-        debugger
+       // debugger
         const { username, password } = this.state;
         const obj = {
             email: username,
@@ -323,8 +326,28 @@ class Header extends Component {
             isUserDashBordOpen: false
         })
     }
+    myProfile(){
+        this.setState({
+            isMyProfileOpen: true
+        })
+    }
+    optionChanged(e){
+        //debugger;
+        if(e.target.value=="My Orders"){
+            this.userDastbord();
+        }
+        if(e.target.value=="My Profile"){
+            this.myProfile();
+        }
+    }
+    closeMyProfile(){
+        this.setState({
+            isMyProfileOpen: false
+        })
+    }
     render() {
-        const { isUserDashBordOpen, background, isLoginModalOpen, username, password, isLoggedIn, user, loginError, isSingUpModalOpen, firstName, lastName, singUpError } = this.state;
+        const { isMyProfileOpen,isUserDashBordOpen, background, isLoginModalOpen, username, password, isLoggedIn, user, loginError, isSingUpModalOpen, firstName, lastName, singUpError } = this.state;
+       // debugger;
         return (
             <div className="">
                 <div className="float-end">
@@ -343,9 +366,24 @@ class Header extends Component {
                                 isLoggedIn
                                     ?
                                     <div style={{width:'219px'}}>
-                                        <span className="text-white m-4" onClick={this.userDastbord} >{user.firstName}</span >
+                                        <span className="text-white m-4"  >
+                                            {/*  */}
+                                        {user.firstName} <select onChange={(e)=>this.optionChanged(e)} style={{width:'18px',backgroundColor:"transparent",border:'none'}}>
+                                                <option desable selected></option>
+                                                <option>My Profile    </option>
+                                                <option >My Orders   </option>
+                                            </select></span >
                                         <button className="btn btn-outline-light" onClick={this.logout}>Logout</button>
-                                        <Modal isOpen={isUserDashBordOpen} style={customStyles1} scrollable={true}>
+                                        <Modal isOpen={isMyProfileOpen} style={customStyles1} scrollable={true}  className={"container-fluid"}>
+                                           <h3 className="myProfileModalHeading">My Profile</h3>
+                                           <button className=" btn btn-light" onClick={() => this.closeMyProfile()} className="btn btn-light closeBtn">&times;</button>
+                                           <div>
+                                               <div>First Name : {user.firstName}</div>
+                                               <div>Last Name : {user.lastName}</div>
+                                               <div>Email : {user.email}</div>
+                                           </div>
+                                        </Modal>
+                                        <Modal isOpen={isUserDashBordOpen} style={customStyles1} scrollable={true}  className={"container-fluid"}>
                                             <div style={{ position: 'sticky', top: '10px' }}>
                                                 <h3 style={{
                                                     'width': '239px',

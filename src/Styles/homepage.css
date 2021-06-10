@@ -54,7 +54,7 @@ margin:0;
     margin: auto;
 }
 .locationDropDown{
-    width: 245px;
+    /* width: 245px; */
     height: 40px;
     background-color: white;
     padding-left: 15px;
@@ -143,3 +143,6 @@ margin:0;
     text-align: left;
     color: #8c96ab;
 }
+::placeholder {
+    text-align: center;
+  }
