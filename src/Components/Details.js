@@ -9,7 +9,7 @@ import 'react-tabs/style/react-tabs.css';
 
 import "../Styles/details.css";
 import queryString from "query-string";
-import header from "./Header";
+
 
 const constants = require("../Constants");
 const API_URL = constants.API_URL;
@@ -55,8 +55,7 @@ class Details extends Component {
             restaurantCity: '',
             thumb: [],
             count: 0,
-            isLogin: false,
-            isSingUpModalOpen:false
+            isLogin: false
         };
         this.savedetails = this.savedetails.bind(this);
         this.paymentHandeller = this.paymentHandeller.bind(this);
@@ -321,7 +320,6 @@ class Details extends Component {
                         }).catch(err => console.log(err));
                     } else {
                         window.alert("Please Login First")
-                        this.setState({isSingUpModalOpen:true})
                     }
                 } else {
                     window.alert("Your address is too small !")
@@ -378,7 +376,7 @@ class Details extends Component {
     }
     render() {
         //debugger;
-        const { isSingUpModalOpen,thumb, restaurantCity, restaurantLocality, orderDetails, userDetails, email, name, mobileNo, address, restaurantName, cuisine, minPrice, contact, isMenuModalOpen, menu, totalPrice, isOrderDetailsModalOpen } = this.state;
+        const { thumb, restaurantCity, restaurantLocality, orderDetails, userDetails, email, name, mobileNo, address, restaurantName, cuisine, minPrice, contact, isMenuModalOpen, menu, totalPrice, isOrderDetailsModalOpen } = this.state;
 
         return (
             <div className="container   pt-3" style={{ "fontFamily": "Poppins", "color": "#192f60" }}>
@@ -522,52 +520,6 @@ class Details extends Component {
 
                                 </div>
                             </Modal>
-                            <Modal isOpen={isSingUpModalOpen} style={customStyles}>
-                            <h3>User Singup</h3>
-                            <form>
-                                {
-                                    singUpError ? <div className="alert alert-danger">{singUpError}</div> : null
-                                }
-                                <label className="form-label">First Name:</label>
-                                <input type="text" value={firstName} className="form-control" onChange={(event) => header.handleChange(event, 'firstName')} />
-                                <br />
-                                <br />
-                                <label className="form-label">Last Name:</label>
-                                <input type="text" value={lastName} className="form-control" onChange={(event) => header.handleChange(event, 'lastName')} />
-
-                                <br />
-                                <br />
-                                <label className="form-label">email:</label>
-                                <input type="text" value={username} placeholder="Username" className="form-control" onChange={(event) => header.handleChange(event, 'username')} />
-                                <br />
-                                <label className="form-label">Password:</label>
-                                <input type="password" value={password} className="form-control" onChange={(event) => header.handleChange(event, 'password')} />
-                                <br />
-                                <br />
-                                <FacebookLogin
-                                    appId="4356797374331461"
-                                    autoLoad={false}
-                                    fields="name,email,picture"
-                                    onClick={header.componentClicked}
-                                    callback={header.responseFacebookSuingUp}
-                                    icon="bi bi-facebook p-2 m-2"
-                                    cssClass="fb"
-                                />
-                                <br />
-                                <Googlelogin
-                                    clientId="946053029267-3osdvlorecoptosi14vh65g4k982ncvi.apps.googleusercontent.com"
-                                    buttonText="Continue with Google"
-                                    onSuccess={header.responseSuccessGoogle}
-                                    onFailure={header.responseFailureGoogle}
-                                    cookiePolicy={'single_host_origin'}
-                                    className="google"
-                                />
-                                <br />
-                                <br />
-                                <input type="button" className="btn btn-primary" onClick={header.handleSingUp} value="Sing Up" />
-                                <input type="button" className="btn" onClick={header.resetSingUpForm} value="Cancel" />
-                            </form>
-                        </Modal>
                         </div>
     :
     <div className="text-dark m-5 p-5 fs-6 text-center"> Loading... {console.warn("Restaurant Id not found !")}</div>
