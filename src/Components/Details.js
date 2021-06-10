@@ -9,7 +9,9 @@ import 'react-tabs/style/react-tabs.css';
 
 import "../Styles/details.css";
 import queryString from "query-string";
-
+import FacebookLogin from "react-facebook-login";
+import Googlelogin from "react-google-login";
+import header from "./Header";
 
 const constants = require("../Constants");
 const API_URL = constants.API_URL;
@@ -55,11 +57,18 @@ class Details extends Component {
             restaurantCity: '',
             thumb: [],
             count: 0,
-            isLogin: false
+            isLogin: false,
+            isLoginModalOpen: false,
+            loginError: undefined,
+            username: undefined,
+            password: undefined
+
         };
         this.savedetails = this.savedetails.bind(this);
         this.paymentHandeller = this.paymentHandeller.bind(this);
         this.removeitem = this.removeitem.bind(this);
+        this.responseFacebookLogin = this.responseFacebookLogin.bind(this);
+        this.responseSuccessGooglelogin = this.responseSuccessGooglelogin.bind(this);
         // var a = localStorage.getItem('user');
     }
     componentDidMount() {
@@ -319,7 +328,8 @@ class Details extends Component {
                             this.postTheInformation(information);
                         }).catch(err => console.log(err));
                     } else {
-                        window.alert("Please Login First")
+                        window.alert("Please Login First");
+                        this.setState({ isLoginModalOpen: true });
                     }
                 } else {
                     window.alert("Your address is too small !")
@@ -371,12 +381,79 @@ class Details extends Component {
 
 
     }
-    componentWillMount() {
-        Modal.setAppElement('body');
+    // componentWillMount() {
+    //     Modal.setAppElement('body');
+    // }
+    handleChange(event, field) {
+        this.setState({
+            [field]: event.target.value,
+            loginError: undefined
+        });
+    }
+    componentClicked(){
+        console.log("Clicked!")
+
+    }
+    responseFacebookLogin(response) {
+        //console.log(response)
+        this.setState({
+            username: response.email,
+            password: response.id
+        })
+        this.handleLogin();
+    }
+    responseFailureGoogle(response) {
+        console.log(response)
+    }
+    responseSuccessGooglelogin(response) {
+        console.log(response)
+
+        this.setState({
+            username: response.profileObj.email,
+            password: response.profileObj.googleId
+        })
+        this.handleLogin();
+    }
+    handleLogin = () => {
+        // call the API to login the user
+        //debugger
+        const { username, password } = this.state;
+        const obj = {
+            email: username,
+            password: password
+        }
+        axios({
+            method: 'POST',
+            url: `${API_URL}/login`,
+            header: { 'Content-Type': 'application/json' },
+            data: obj
+        }).then(result => {
+            localStorage.setItem("user", JSON.stringify(result.data.user[0]));
+            localStorage.setItem("isLoggedIn", true);
+            this.setState({
+                userDetails: result.data.user[0],
+                isLogin: true,
+                loginError: undefined
+            });
+            this.resetLoginForm();
+        }).catch(error => {
+            this.setState({
+                loginError: 'Username or password is wrong !!'
+            });
+            console.log(error);
+        });
+    }
+    resetLoginForm = () => {
+        this.setState({
+            isLoginModalOpen: false,
+            username: '',
+            password: '',
+            loginError: undefined
+        });
     }
     render() {
         //debugger;
-        const { thumb, restaurantCity, restaurantLocality, orderDetails, userDetails, email, name, mobileNo, address, restaurantName, cuisine, minPrice, contact, isMenuModalOpen, menu, totalPrice, isOrderDetailsModalOpen } = this.state;
+        const { loginError, username, password, isLoginModalOpen, thumb, restaurantCity, restaurantLocality, orderDetails, userDetails, email, name, mobileNo, address, restaurantName, cuisine, minPrice, contact, isMenuModalOpen, menu, totalPrice, isOrderDetailsModalOpen } = this.state;
 
         return (
             <div className="container   pt-3" style={{ "fontFamily": "Poppins", "color": "#192f60" }}>
@@ -520,10 +597,48 @@ class Details extends Component {
 
                                 </div>
                             </Modal>
+                            <Modal isOpen={isLoginModalOpen} style={customStyles}>
+                                <h3>User Login</h3>
+                                <form>
+                                    {
+                                        loginError ? <div className="alert alert-danger">{loginError}</div> : null
+                                    }
+                                    <label className="form-label">Username:</label>
+                                    <input type="text" value={username} className="form-control" onChange={(event) => this.handleChange(event, 'username')} />
+                                    <br />
+                                    <label className="form-label">Password:</label>
+                                    <input type="password" value={password} className="form-control" onChange={(event) => this.handleChange(event, 'password')} />
+                                    <br />
+                                    <br />
+                                    <FacebookLogin
+                                        appId="4356797374331461"
+                                        autoLoad={false}
+                                        fields="name,email,picture"
+                                        onClick={this.componentClicked}
+                                        callback={this.responseFacebookLogin}
+                                        icon="bi bi-facebook p-2 m-2"
+                                        cssClass="fb"
+                                    />
+                                    <br />
+                                    <Googlelogin
+                                        clientId="946053029267-3osdvlorecoptosi14vh65g4k982ncvi.apps.googleusercontent.com"
+                                        buttonText="Continue with Google"
+                                        onSuccess={this.responseSuccessGooglelogin}
+                                        onFailure={this.responseFailureGoogle}
+                                        cookiePolicy={'single_host_origin'}
+                                        className="google"
+                                    />
+                                    <br />
+                                    <br />
+                                    <input type="button" className="btn btn-primary" onClick={this.handleLogin} value="Login" />
+                                    <input type="button" className="btn" onClick={this.resetLoginForm} value="Cancel" />
+                                </form>
+                            </Modal>
+
                         </div>
-    :
-    <div className="text-dark m-5 p-5 fs-6 text-center"> Loading... {console.warn("Restaurant Id not found !")}</div>
-                                }
+                        :
+                        <div className="text-dark m-5 p-5 fs-6 text-center"> Loading... {console.warn("Restaurant Id not found !")}</div>
+                }
             </div>
         );
     }

@@ -117,6 +117,7 @@ class Header extends Component {
     }
     handleLogin = () => {
         // call the API to login the user
+        debugger
         const { username, password } = this.state;
         const obj = {
             email: username,
@@ -239,6 +240,7 @@ class Header extends Component {
         console.log(response)
     }
     responseSuccessGoogle(response) {
+        debugger
         let fName = response.profileObj.givenName;
         let lName = response.profileObj.familyName;
         let email = response.profileObj.email;
