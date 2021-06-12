@@ -431,6 +431,12 @@ class Details extends Component {
             header: { 'Content-Type': 'application/json' },
             data: obj
         }).then(result => {
+            if(result.data.data=="This email is not exist"){
+                this.setState({
+                    loginError: 'This email is not exist, You have to signUp first !!'
+                });
+                return;
+            }else{
             localStorage.setItem("user", JSON.stringify(result.data.user[0]));
             localStorage.setItem("isLoggedIn", true);
             this.setState({
@@ -439,6 +445,7 @@ class Details extends Component {
                 loginError: undefined
             });
             this.resetLoginForm();
+        }
         }).catch(error => {
             this.setState({
                 loginError: 'Username or password is wrong !!'
@@ -587,7 +594,7 @@ class Details extends Component {
                                         <h3 className="heading2">{restaurantName}</h3>
                                         <button className=" btn btn-light" onClick={() => this.closeOrderDetailsMenu()} className="btn btn-light closeBtn">&times;</button>
                                     </div>
-                                    <div >
+                                    <div className="row">
                                         <div className="subHading">Name</div>
                                         <input className="inputField" type="text" placeholder="Enter your name" onChange={(e) => this.setValueForName(e, 'name')} />
                                         <div className="subHading" required min="10">Mobile Number</div>

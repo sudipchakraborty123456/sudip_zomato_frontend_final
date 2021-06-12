@@ -132,6 +132,12 @@ class Header extends Component {
             header: { 'Content-Type': 'application/json' },
             data: obj
         }).then(result => {
+            if(result.data.data=="This email is not exist"){
+                this.setState({
+                    loginError: 'This email is not exist, You have to signUp first !!'
+                });
+                return;
+            }else{
             localStorage.setItem("user", JSON.stringify(result.data.user[0]));
             localStorage.setItem("isLoggedIn", true);
             this.setState({
@@ -140,9 +146,10 @@ class Header extends Component {
                 loginError: undefined
             });
             this.resetLoginForm();
+        }
         }).catch(error => {
             this.setState({
-                loginError: 'Username or password is wrong !!'
+                loginError: 'Password is wrong !!'
             });
             console.log(error);
         });
@@ -180,7 +187,7 @@ class Header extends Component {
             header: { 'Content-Type': 'application/json' },
             data: obj
         }).then(result => {
-            debugger
+            //debugger
             if(result.data.data=="Use another email"){
                 window.alert("This email is already used, try with another email")
                 return;
