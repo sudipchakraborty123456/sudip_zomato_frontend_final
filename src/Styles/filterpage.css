@@ -152,7 +152,7 @@ body{
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.88;
+    /* line-height: 1.88; */
     letter-spacing: normal;
     text-align: left;
     color: #636f88;
@@ -214,4 +214,48 @@ body{
     /* float: right; */
     font-size: 15px;
     
+}
+.filterOptionDropdown{
+
+}
+
+#dropdown-basic{
+    background-color: white;
+    color: black;
+    width: 90%;
+    /* -webkit-backdrop-filter: blur(30px); */
+    /* backdrop-filter: blur(30px); */
+    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
+    border: solid 1px #e0e0e0;
+    background-color: #ffffff;
+    font-family: Poppins;
+  font-size: 16px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.56;
+  letter-spacing: normal;
+  
+  color: #192f60;
+}
+.noRestaurant{
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    background-color: #ffffff;
+    height:300px;
+    display:table;
+    margin-left: 12px;;
+}
+.noRestaurantHeading{
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: center;
+    color: #192f60;
+    margin: auto 0;
+    display: table-cell;
+    vertical-align: middle;
 }

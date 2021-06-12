@@ -238,9 +238,9 @@ body{
     color: #292c40;
   }
   .itemDec{
-    width: 329px;
+    /* width: 329px;
     height: 38px;
-    /* margin: 12px 125px 28.6px 0; */
+    margin: 12px 125px 28.6px 0; */
     font-family: RupeeForadian;
     font-size: 13px;
     font-weight: normal;
@@ -250,6 +250,7 @@ body{
     letter-spacing: normal;
     text-align: left;
     color: #696b78;
+
   }
   .subTotal{
     height:61px;
@@ -295,3 +296,6 @@ body{
       left: 44%;
   }
    
+  .ReactModal__Overlay{
+    z-index:1000;
+  }

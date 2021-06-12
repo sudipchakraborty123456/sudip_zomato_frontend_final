@@ -370,7 +370,7 @@ class Header extends Component {
                             {
                                 isLoggedIn
                                     ?
-                                    <div style={{width:'219px'}}>
+                                    <div style={{}}>
                                         <span className="text-white m-4"  >
                                             {/*  */}
                                         {user.firstName} <select onChange={(e)=>this.optionChanged(e)} style={{width:'18px',backgroundColor:"transparent",border:'none'}}>
@@ -415,13 +415,13 @@ class Header extends Component {
                                         </Modal>
                                     </div>
                                     :
-                                    <div className="" style={{width:'219px'}}>
+                                    <div className="" style={{}}>
                                         <button className="btn text-white" onClick={this.handleLoginButtonClick}>Login</button>
                                         <button className="btn btn-outline-light" onClick={this.handelSingUpButtonClicked}>Create an account</button>
                                     </div>
                             }
                         </div>
-                        <Modal isOpen={isLoginModalOpen} style={customStyles}>
+                        <Modal isOpen={isLoginModalOpen} style={customStyles} >
                             <h3>User Login</h3>
                             <form>
                                 {
@@ -467,19 +467,12 @@ class Header extends Component {
                                 }
                                 <label className="form-label">First Name:</label>
                                 <input type="text" value={firstName} className="form-control" onChange={(event) => this.handleChange(event, 'firstName')} />
-                                <br />
-                                <br />
                                 <label className="form-label">Last Name:</label>
                                 <input type="text" value={lastName} className="form-control" onChange={(event) => this.handleChange(event, 'lastName')} />
-
-                                <br />
-                                <br />
                                 <label className="form-label">email:</label>
                                 <input type="text" value={username} placeholder="Username" className="form-control" onChange={(event) => this.handleChange(event, 'username')} />
-                                <br />
                                 <label className="form-label">Password:</label>
                                 <input type="password" value={password} className="form-control" onChange={(event) => this.handleChange(event, 'password')} />
-                                <br />
                                 <br />
                                 <FacebookLogin
                                     appId="4356797374331461"

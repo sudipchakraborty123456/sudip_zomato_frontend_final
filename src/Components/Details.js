@@ -27,8 +27,11 @@ const customStyles = {
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
         boxShadow: '0 3px 6px 0 rgba(0, 0, 0, 0.16)',
-        zIndex: '1000'
-    }
+        zIndex: '1000',
+        maxWidth:"500px",
+        width:"100%",
+        "margin-top":"5px"
+        }
 };
 
 class Details extends Component {
@@ -512,7 +515,7 @@ class Details extends Component {
                                     </TabPanel>
                                 </Tabs>
                             </div>
-                            <Modal isOpen={isMenuModalOpen} style={customStyles}>
+                            <Modal isOpen={isMenuModalOpen} style={customStyles} className={""}>
                                 <h3 className='menuHeading'>{restaurantName}</h3>
                                 <button onClick={() => this.closeMenu()} className="btn btn-light closeBtn">&times;</button>
                                 <ul className="menu">
@@ -530,7 +533,7 @@ class Details extends Component {
                                                                         'height': '16px',
                                                                         'padding': '4px',
                                                                         'border': 'solid 1px #048002',
-                                                                        ' backgroundColor': '#ffffff'
+                                                                        'backgroundColor': '#ffffff'
                                                                     }}><div style={{
                                                                         'width': '6px',
                                                                         'height': '6px',

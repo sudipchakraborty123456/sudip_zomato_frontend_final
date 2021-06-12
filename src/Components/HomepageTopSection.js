@@ -103,7 +103,7 @@ class HomePageTopSection extends Component {
                     
                     <div className="row text-center">
                         <div className="imageText col-12">
-                            <div className="logo text-center">
+                            <div className="logo text-center ">
                                 e!
                             </div>
                             <div className="headerText col-12">

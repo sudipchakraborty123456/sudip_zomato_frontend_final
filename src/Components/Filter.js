@@ -3,10 +3,10 @@ import FilterSection from "./FilterSection";
 import ResultSection from "./ResultSection";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
-
-
+// import Dropdown from 'react-dropdown';
+// import 'react-dropdown/style.css';
+import { Dropdown } from 'react-bootstrap';
 import queryString from "query-string";
-
 
 const constants = require("../Constants");
 const API_URL = constants.API_URL;
@@ -221,23 +221,73 @@ class Filter extends React.Component {
                 <div className="container pt-5">
                     <div className="row">
                         <div className="col-12 ">
-                        <div className=" heading">{mealtypeName} Places in {selectedCity}</div>
+                            <div className=" heading">{mealtypeName} Places in {selectedCity}</div>
                         </div>
                     </div>
                     <div className="row" style={{ margin: "auto" }}>
                         <div className="col-12 col-md-4 col-lg-4 col-sm-12 " >
-                            <div className="col-11 filterSection">
+                            <Dropdown className="d-block d-md-none filterOptionDropdown">
+                                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                    Filter / Sort
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu>
+                                    <Dropdown.Item><div className="filterHeading row">
+                                        <div className="sectionHeading col-4">Filters</div>
+                                        <div className=" col-8 text-end">
+                                            <button className="btn btn-danger  resetButton float-right" style={{ 'backgroundColor': '#ce0505' }} onClick={this.resetFilters}>Reset All Filters</button>
+                                        </div>
+                                    </div>
+                                        <div className="row">
+                                            <div className="sectionSubHeading col-12" >Select Location</div>
+                                        </div>
+
+
+                                        <div className="row">
+                                            <select className="locationSelection col-10" onChange={(event) => this.handelLocationChange(event)}>
+
+                                                {/* <option selected disabled>Select Location</option>  */}
+                                                {
+                                                    locationsInCity.map((item, index) => {
+                                                        return <option key={index} value={item.location_id} >{item.name}</option>
+                                                    })
+                                                }
+
+                                            </select>
+                                        </div>
+                                        <div className="row">
+                                            <div className="sectionSubHeading">Cuisine</div>
+                                            <div htmlFor="cus" className="cuisineSelection"><input id="cus" type="checkbox" onChange={(event) => this.handelCuisineChanged(event, "North Indian")} /> North Indian</div>
+                                            <div htmlFor="cus1" className="cuisineSelection"><input id="cus1" type="checkbox" onChange={(event) => this.handelCuisineChanged(event, "South Indian")} /> South Indian</div>
+                                            <div htmlFor="cus2" className="cuisineSelection"><input type="checkbox" id="cus2" onChange={(event) => this.handelCuisineChanged(event, "Chinese")} /> Chinese</div>
+                                            <div className="cuisineSelection"><input type="checkbox" onChange={(event) => this.handelCuisineChanged(event, "Fast Food")} /> Fast Food</div>
+                                            <div className="cuisineSelection"><input type="checkbox" onChange={(event) => this.handelCuisineChanged(event, "Street Food")} /> Street Food</div>
+                                            <div className="sectionSubHeading">Cost for two</div>
+                                            <div className="cuisineSelection"><input type="radio" name="cost" onChange={(e) => { this.handelCostChanged(e, 0, 500) }} /> Less than ₹ 500 </div>
+
+                                            <div className="cuisineSelection"><input type="radio" name="cost" onChange={(e) => { this.handelCostChanged(e, 500, 1000) }} /> ₹ 500 to ₹ 1000 </div>
+                                            <div className="cuisineSelection"><input type="radio" name="cost" onChange={(e) => { this.handelCostChanged(e, 1000, 1500) }} /> ₹ 1000 to ₹ 1500 </div>
+                                            <div className="cuisineSelection"><input type="radio" name="cost" onChange={(e) => { this.handelCostChanged(e, 1500, 2000) }} /> ₹ 1500 to ₹ 2000 </div>
+                                            <div className="cuisineSelection"><input type="radio" name="cost" onChange={(e) => { this.handelCostChanged(e, 2000, 100000) }} /> ₹ 2000+ </div>
+                                            <div className="sectionSubHeading">Sort</div>
+                                            <div className="cuisineSelection"><input type="radio" name="sort" onChange={(e) => { this.handelSortChange(e, 1) }} /> Price low to high </div>
+                                            <div className="cuisineSelection"><input type="radio" name="sort" onChange={(e) => { this.handelSortChange(e, -1) }} /> Price high to low </div>
+                                        </div></Dropdown.Item>
+
+                                </Dropdown.Menu>
+                            </Dropdown>
+                            <div className="col-11 filterSection d-none d-md-block">
                                 <div className="filterHeading row">
                                     <div className="sectionHeading col-4">Filters</div>
                                     <div className=" col-8 text-end">
-                                    <button className="btn btn-danger  resetButton float-right" style={{ 'backgroundColor': '#ce0505' }} onClick={this.resetFilters}>Reset All Filters</button>
+                                        <button className="btn btn-danger  resetButton float-right" style={{ 'backgroundColor': '#ce0505' }} onClick={this.resetFilters}>Reset All Filters</button>
                                     </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="sectionSubHeading col-12" >Select Location</div>
-                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="sectionSubHeading col-12" >Select Location</div>
+                                </div>
 
-                                
+
                                 <div className="row">
                                     <select className="locationSelection col-10" onChange={(event) => this.handelLocationChange(event)}>
 
@@ -250,24 +300,24 @@ class Filter extends React.Component {
 
                                     </select>
                                 </div>
-                            <div className="row">
-                                <div className="sectionSubHeading">Cuisine</div>
-                                <div htmlFor="cus" className="cuisineSelection"><input id="cus" type="checkbox" onChange={(event) => this.handelCuisineChanged(event, "North Indian")} /> North Indian</div>
-                                <div htmlFor="cus1" className="cuisineSelection"><input id="cus1" type="checkbox" onChange={(event) => this.handelCuisineChanged(event, "South Indian")} /> South Indian</div>
-                                <div htmlFor="cus2" className="cuisineSelection"><input type="checkbox" id="cus2" onChange={(event) => this.handelCuisineChanged(event, "Chinese")} /> Chinese</div>
-                                <div className="cuisineSelection"><input type="checkbox" onChange={(event) => this.handelCuisineChanged(event, "Fast Food")} /> Fast Food</div>
-                                <div className="cuisineSelection"><input type="checkbox" onChange={(event) => this.handelCuisineChanged(event, "Street Food")} /> Street Food</div>
-                                <div className="sectionSubHeading">Cost for two</div>
-                                <div className="cuisineSelection"><input type="radio" name="cost" onChange={(e) => { this.handelCostChanged(e, 0, 500) }} /> Less than ₹ 500 </div>
+                                <div className="row">
+                                    <div className="sectionSubHeading">Cuisine</div>
+                                    <div htmlFor="cus" className="cuisineSelection"><input id="cus" type="checkbox" onChange={(event) => this.handelCuisineChanged(event, "North Indian")} /> North Indian</div>
+                                    <div htmlFor="cus1" className="cuisineSelection"><input id="cus1" type="checkbox" onChange={(event) => this.handelCuisineChanged(event, "South Indian")} /> South Indian</div>
+                                    <div htmlFor="cus2" className="cuisineSelection"><input type="checkbox" id="cus2" onChange={(event) => this.handelCuisineChanged(event, "Chinese")} /> Chinese</div>
+                                    <div className="cuisineSelection"><input type="checkbox" onChange={(event) => this.handelCuisineChanged(event, "Fast Food")} /> Fast Food</div>
+                                    <div className="cuisineSelection"><input type="checkbox" onChange={(event) => this.handelCuisineChanged(event, "Street Food")} /> Street Food</div>
+                                    <div className="sectionSubHeading">Cost for two</div>
+                                    <div className="cuisineSelection"><input type="radio" name="cost" onChange={(e) => { this.handelCostChanged(e, 0, 500) }} /> Less than ₹ 500 </div>
 
-                                <div className="cuisineSelection"><input type="radio" name="cost" onChange={(e) => { this.handelCostChanged(e, 500, 1000) }} /> ₹ 500 to ₹ 1000 </div>
-                                <div className="cuisineSelection"><input type="radio" name="cost" onChange={(e) => { this.handelCostChanged(e, 1000, 1500) }} /> ₹ 1000 to ₹ 1500 </div>
-                                <div className="cuisineSelection"><input type="radio" name="cost" onChange={(e) => { this.handelCostChanged(e, 1500, 2000) }} /> ₹ 1500 to ₹ 2000 </div>
-                                <div className="cuisineSelection"><input type="radio" name="cost" onChange={(e) => { this.handelCostChanged(e, 2000, 100000) }} /> ₹ 2000+ </div>
-                                <div className="sectionSubHeading">Sort</div>
-                                <div className="cuisineSelection"><input type="radio" name="sort" onChange={(e) => { this.handelSortChange(e, 1) }} /> Price low to high </div>
-                                <div className="cuisineSelection"><input type="radio" name="sort" onChange={(e) => { this.handelSortChange(e, -1) }} /> Price high to low </div>
-                                </div>            
+                                    <div className="cuisineSelection"><input type="radio" name="cost" onChange={(e) => { this.handelCostChanged(e, 500, 1000) }} /> ₹ 500 to ₹ 1000 </div>
+                                    <div className="cuisineSelection"><input type="radio" name="cost" onChange={(e) => { this.handelCostChanged(e, 1000, 1500) }} /> ₹ 1000 to ₹ 1500 </div>
+                                    <div className="cuisineSelection"><input type="radio" name="cost" onChange={(e) => { this.handelCostChanged(e, 1500, 2000) }} /> ₹ 1500 to ₹ 2000 </div>
+                                    <div className="cuisineSelection"><input type="radio" name="cost" onChange={(e) => { this.handelCostChanged(e, 2000, 100000) }} /> ₹ 2000+ </div>
+                                    <div className="sectionSubHeading">Sort</div>
+                                    <div className="cuisineSelection"><input type="radio" name="sort" onChange={(e) => { this.handelSortChange(e, 1) }} /> Price low to high </div>
+                                    <div className="cuisineSelection"><input type="radio" name="sort" onChange={(e) => { this.handelSortChange(e, -1) }} /> Price high to low </div>
+                                </div>
                             </div>
                         </div>
                         <div className="col-12 col-md-8 col-lg-8 col-sm-12" >
@@ -315,7 +365,11 @@ class Filter extends React.Component {
                                                 //  </div>
                                             })
                                             :
-                                            <div className="text-danger text-center my-5">No Restaurants for the selected filters</div>
+                                            <div className="row">
+                                                <div className="noRestaurant col-12">
+                                                    <div className=" noRestaurantHeading">No Restaurants for the selected filters</div>
+                                                </div>
+                                            </div>
 
                                     }
                                     {
