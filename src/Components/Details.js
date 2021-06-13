@@ -304,7 +304,7 @@ class Details extends Component {
         //debugger;
         // const email =this.state.userDetails.email;
         if (this.state.mobileNo && this.state.address) {
-            if (this.state.mobileNo.length > 10) {
+            if (this.state.mobileNo.length >= 10) {
                 if (this.state.address.length > 10) {
                     if (this.state.isLogin == true) {
                         // if (this.state.totalPrice == 0) {
