@@ -21,7 +21,8 @@ const customStyles = {
         marginRight: '0',
         transform: 'translate(-50%, -50%)',
         boxShadow: '0 3px 6px 0 rgba(0, 0, 0, 0.16)',
-        width: '350px'
+        width: '350px',
+        zIndex:"100"
     }
 };
 const customStyles1 = {

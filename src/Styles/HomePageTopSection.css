@@ -12,7 +12,7 @@
     transition: opacity 0.25s ease 0s, top 0.25s ease 0s;
     padding: 15px 0px;
     background: white;
-    z-index: 100000;
+    z-index: 1;
 }
 
 .suggestionsBox li {

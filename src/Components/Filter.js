@@ -33,7 +33,7 @@ class Filter extends React.Component {
             pageSize: 2,
             noOFPages: 0
         };
-        this.resetFilters = this.resetFilters.bind(this);
+       // this.resetFilters = this.resetFilters.bind(this);
     }
     componentDidMount() {
         console.log("ComponentDidMount phase run...........")
@@ -198,7 +198,7 @@ class Filter extends React.Component {
         const url = `/details?id=${item._id}`;
         this.props.history.push(url);
     }
-    resetFilters() {
+    resetFilters=()=> {
         //debugger
         console.log(this)
         this.setState({
