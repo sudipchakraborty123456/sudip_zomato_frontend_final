@@ -111,18 +111,28 @@ class Header extends Component {
 
     handleLoginButtonClick = () => {
         this.setState({
-            isLoginModalOpen: true
+            isLoginModalOpen: true,
+            isSingUpModalOpen: false
         });
     }
     handelSingUpButtonClicked = () => {
         this.setState({
-            isSingUpModalOpen: true
+            isSingUpModalOpen: true,
+            isLoginModalOpen: false
         });
     }
     handleLogin = () => {
         // call the API to login the user
        // debugger
         const { username, password } = this.state;
+        if(username.length==0){
+            window.alert("Enter email first!")
+            return;
+        }
+        if(password.length==0){
+            window.alert("Enter password first!")
+            return;
+        }
         const obj = {
             email: username,
             password: password
@@ -176,6 +186,22 @@ class Header extends Component {
 
     handleSingUp = () => {
         const { username, password, firstName, lastName } = this.state;
+        if(username.length==0 ){
+            window.alert("Enter email first!")
+            return;
+        }
+        if(password.length==0){
+            window.alert("Enter password first!");
+            return;
+        }
+        if(firstName.length==0){
+            window.alert("Enter first name first!");
+            return;
+        }
+        if(lastName.length==0){
+            window.alert("Enter last name first!");
+            return;
+        }
         const obj = {
             email: username,
             password: password,
@@ -388,7 +414,7 @@ class Header extends Component {
                                             </select></span >
                                         <button className="btn btn-outline-light" onClick={this.logout}>Logout</button>
                                         <Modal isOpen={isMyProfileOpen} style={customStyles1} scrollable={true}  className={"container-fluid"}>
-                                           <h3 className="myProfileModalHeading">My Profile</h3>
+                                           <h3 className="orderDeatilsHeading">My Profile</h3>
                                            <button className=" btn btn-light" onClick={() => this.closeMyProfile()} className="btn btn-light closeBtn">&times;</button>
                                            <div>
                                                <div>First Name : {user.firstName}</div>
@@ -398,20 +424,7 @@ class Header extends Component {
                                         </Modal>
                                         <Modal isOpen={isUserDashBordOpen} style={customStyles1} scrollable={true}  className={"container-fluid"}>
                                             <div style={{ position: 'sticky', top: '10px' }}>
-                                                <h3 style={{
-                                                    'width': '239px',
-                                                    'height': '33px',
-                                                    'fontFamily': 'Poppins',
-                                                    'fontSize': '24px',
-                                                    'fontWeight': 600,
-                                                    'fontStretch': 'normal',
-                                                    'fontStyle': 'normal',
-                                                    'lineHeight': '1.46',
-                                                    'letterSpacing': 'normal',
-                                                    'textAlign': 'left',
-                                                    'color': '#192f60',
-                                                    'display': 'inline-block'
-                                                }}>Order Details</h3>
+                                                <h3 className="orderDeatilsHeading" >Order Details</h3>
                                                 <button className=" btn btn-light" onClick={() => this.closeOrderDetails()} className="btn btn-light closeBtn">&times;</button>
                                             </div>
                                             <ul className="">
@@ -464,6 +477,11 @@ class Header extends Component {
                                 <br />
                                 <input type="button" className="btn btn-primary" onClick={this.handleLogin} value="Login" />
                                 <input type="button" className="btn" onClick={this.resetLoginForm} value="Cancel" />
+                                <br/>
+                                <hr/>
+                                <div className="text-center">
+                                    <p className="dontHaveAccount">Don't have account? <a className="signUpA pointer"  onClick={()=>this.handelSingUpButtonClicked()}>SignUp</a></p>
+                                </div>
                             </form>
                         </Modal>
 
@@ -474,13 +492,13 @@ class Header extends Component {
                                     singUpError ? <div className="alert alert-danger">{singUpError}</div> : null
                                 }
                                 <label className="form-label">First Name:</label>
-                                <input type="text" value={firstName} className="form-control" onChange={(event) => this.handleChange(event, 'firstName')} />
+                                <input type="text" value={firstName} className="form-control"  onChange={(event) => this.handleChange(event, 'firstName')} />
                                 <label className="form-label">Last Name:</label>
-                                <input type="text" value={lastName} className="form-control" onChange={(event) => this.handleChange(event, 'lastName')} />
+                                <input type="text" value={lastName} className="form-control"  onChange={(event) => this.handleChange(event, 'lastName')} />
                                 <label className="form-label">email:</label>
-                                <input type="text" value={username} placeholder="Username" className="form-control" onChange={(event) => this.handleChange(event, 'username')} />
+                                <input type="text" value={username}   className="form-control" onChange={(event) => this.handleChange(event, 'username')} />
                                 <label className="form-label">Password:</label>
-                                <input type="password" value={password} className="form-control" onChange={(event) => this.handleChange(event, 'password')} />
+                                <input type="password" value={password} className="form-control"  onChange={(event) => this.handleChange(event, 'password')} />
                                 <br />
                                 <FacebookLogin
                                     appId="4356797374331461"
@@ -504,6 +522,9 @@ class Header extends Component {
                                 <br />
                                 <input type="button" className="btn btn-primary" onClick={this.handleSingUp} value="Sing Up" />
                                 <input type="button" className="btn" onClick={this.resetSingUpForm} value="Cancel" />
+                                <br/>
+                                <hr/>
+                                <p className="dontHaveAccount">Already have an account? <a className="signUpA pointer" onClick={this.handleLoginButtonClick}>Login</a></p>
                             </form>
                         </Modal>
                     </div>

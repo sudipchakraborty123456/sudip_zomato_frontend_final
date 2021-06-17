@@ -89,3 +89,34 @@ width: 42px;
   text-align: left;
   color: #192f60;
 }
+.dontHaveAccount{
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.56;
+    letter-spacing: normal;
+    text-align: left;
+    color: #192f60;
+}
+.signUpA{
+    color: #ed5a6b;
+   
+}
+
+.pointer {cursor: pointer;}
+.orderDeatilsHeading{
+    width: 239px;
+    height: 33px;
+    font-family: Poppins;
+    font-size: 24px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #192f60;
+    display: inline-block
+}

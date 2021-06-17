@@ -67,11 +67,7 @@ class Details extends Component {
             password: undefined
 
         };
-        this.savedetails = this.savedetails.bind(this);
-        this.paymentHandeller = this.paymentHandeller.bind(this);
-        this.removeitem = this.removeitem.bind(this);
-        this.responseFacebookLogin = this.responseFacebookLogin.bind(this);
-        this.responseSuccessGooglelogin = this.responseSuccessGooglelogin.bind(this);
+     
         // var a = localStorage.getItem('user');
     }
     componentDidMount() {
@@ -117,13 +113,13 @@ class Details extends Component {
     }
     getRestaurantById() {
     }
-    handelPlaceOrderClicked() {
+    handelPlaceOrderClicked=()=> {
         //debugger;
         this.setState({
             isMenuModalOpen: true
         })
     }
-    placeOrderDetails() {
+    placeOrderDetails=()=> {
         if (this.state.totalPrice > 0) {
             this.setState({
                 isOrderDetailsModalOpen: true
@@ -133,17 +129,17 @@ class Details extends Component {
         }
 
     }
-    closeMenu() {
+    closeMenu=()=> {
         this.setState({
             isMenuModalOpen: false
         })
     }
-    closeOrderDetailsMenu() {
+    closeOrderDetailsMenu=()=> {
         this.setState({
             isOrderDetailsModalOpen: false
         })
     }
-    addItem(item) {
+    addItem=(item)=> {
         const itemName = item.itemName;
         const { totalPrice, orderdItems, count } = this.state;
         let itemCount = this.state[itemName] || 0;
@@ -187,7 +183,7 @@ class Details extends Component {
             this.state.orderdItems.push({ name: itemName, count: this.state[itemName] })
         }
     }
-    removeitem(item) {
+    removeitem=(item)=> {
         // debugger;
         // const { totalPrice, orderdItems } = this.state;
         // orderdItems.push(item.itemName);
@@ -300,7 +296,7 @@ class Details extends Component {
         }).catch(err => console.log(err))
     }
 
-    paymentHandeller() {
+    paymentHandeller=()=> {
         //debugger;
         // const email =this.state.userDetails.email;
         if (this.state.mobileNo && this.state.address) {
@@ -344,7 +340,7 @@ class Details extends Component {
             window.alert("Please Provide Mobile No and Address first...")
         }
     }
-    setValueForName(e, field) {
+    setValueForName=(e, field)=> {
         //debugger;
 
         this.setState({
@@ -357,7 +353,7 @@ class Details extends Component {
         // console.log(this.state.address);
     }
 
-    savedetails() {
+    savedetails=()=> {
         //debugger;
 
         var orderDetails = {
@@ -387,17 +383,17 @@ class Details extends Component {
     // componentWillMount() {
     //     Modal.setAppElement('body');
     // }
-    handleChange(event, field) {
+    handleChange=(event, field)=> {
         this.setState({
             [field]: event.target.value,
             loginError: undefined
         });
     }
-    componentClicked(){
+    componentClicked=()=>{
         console.log("Clicked!")
 
     }
-    responseFacebookLogin(response) {
+    responseFacebookLogin=(response)=> {
         //console.log(response)
         this.setState({
             username: response.email,
@@ -405,10 +401,10 @@ class Details extends Component {
         })
         this.handleLogin();
     }
-    responseFailureGoogle(response) {
+    responseFailureGoogle=(response)=> {
         console.log(response)
     }
-    responseSuccessGooglelogin(response) {
+    responseSuccessGooglelogin=(response)=> {
         console.log(response)
 
         this.setState({
