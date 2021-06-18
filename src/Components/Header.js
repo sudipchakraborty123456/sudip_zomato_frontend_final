@@ -254,7 +254,7 @@ class Header extends Component {
         console.log("Clicked!")
     }
     responseFacebookSuingUp = (response) => {
-        console.log(response)
+        //console.log(response)
         if (response.status !== 'unknown') {
             let name = response.name;
             name = response.name.split(" ");
@@ -386,7 +386,6 @@ class Header extends Component {
     }
     render() {
         const { isMyProfileOpen,isUserDashBordOpen, background, isLoginModalOpen, username, password, isLoggedIn, user, loginError, isSingUpModalOpen, firstName, lastName, singUpError } = this.state;
-       // debugger;
         return (
             <div className="">
                 <div className="float-end">

@@ -63,15 +63,18 @@ class Details extends Component {
             isLogin: false,
             isLoginModalOpen: false,
             loginError: undefined,
-            username: undefined,
-            password: undefined
+            username: "",
+            password: "",
+            isSingUpModalOpen: false,
+            singUpError: undefined,
+            firstName: '',
+            lastName: ""
+
 
         };
      
-        // var a = localStorage.getItem('user');
     }
     componentDidMount() {
-        //debugger;
         let a = localStorage.getItem('user');
         this.setState({ userDetails: JSON.parse(a) })
         if (a) {
@@ -80,16 +83,12 @@ class Details extends Component {
             })
             console.log("login status changed!")
         }
-        //console.log(a.email)
-        //debugger;
-
         const qs = queryString.parse(this.props.location.search);
         const { id } = qs;
 
         this.setState({
             restaurantId: id
         })
-        //console.log(this.state.restaurantId)
         axios.get(`${API_URL}/getAllRestaurantById/${id}`).then((result) => {
             this.setState({
                 restaurantName: result.data.restaurant[0].name,
@@ -101,9 +100,7 @@ class Details extends Component {
                 thumb: result.data.restaurant[0].thumb
 
             })
-            // console.log(result.data.restaurant[0].cuisine)
         }).catch((error) => { console.log(error) });
-        // debugger;
         axios.get(`${API_URL}/getMenuByRestaurantId/${id}`).then((result) => {
             this.setState({
                 menu: result.data.menu
@@ -114,7 +111,6 @@ class Details extends Component {
     getRestaurantById() {
     }
     handelPlaceOrderClicked=()=> {
-        //debugger;
         this.setState({
             isMenuModalOpen: true
         })
@@ -151,16 +147,11 @@ class Details extends Component {
         this.saveOrderItem(item);
     }
     saveOrderItem = (items) => {
-        //  debugger
         var itemName = items.itemName;
         const itemCount = this.state[itemName]
         const { orderdItems } = this.state;
         if (orderdItems.length > 0) {
-            // orderdItems.map((item,index)=>{
-            //     console.log(item)
-            // })
             function search(key, array) {
-                //debugger
                 for (let i = 0; i < array.length; i++) {
                     if (array[i].name === key) {
                         array[i].count = itemCount
@@ -184,15 +175,7 @@ class Details extends Component {
         }
     }
     removeitem=(item)=> {
-        // debugger;
-        // const { totalPrice, orderdItems } = this.state;
-        // orderdItems.push(item.itemName);
-        // this.setState({
-        //     totalPrice: totalPrice - item.itemPrice,
-        //     orderdItems: orderdItems
-        // })
-
-        const itemName = item.itemName;
+          const itemName = item.itemName;
         const { totalPrice, orderdItems, count } = this.state;
         const itemCount = this.state[itemName] || 0;
         if (this.state[itemName] > 0) {
@@ -297,23 +280,14 @@ class Details extends Component {
     }
 
     paymentHandeller=()=> {
-        //debugger;
+       // debugger;
         // const email =this.state.userDetails.email;
         if (this.state.mobileNo && this.state.address) {
             if (this.state.mobileNo.length >= 10) {
                 if (this.state.address.length > 10) {
                     if (this.state.isLogin == true) {
-                        // if (this.state.totalPrice == 0) {
-                        //     return;
-                        // }
-                        let a = this.savedetails();
-                        //console.log(a)
-                        //let orderId = this.savedetails();
-                        // this.setState({order:{
-                        //     userId: (localStorage.getItem(user)),
-                        //     restaurantId:id
-                        // }})
-                        const data = {
+                                              let a = this.savedetails();
+                           const data = {
                             amount: this.state.totalPrice,
                             email: this.state.userDetails.email,
                             mobileNo: this.state.mobileNo,
@@ -367,22 +341,8 @@ class Details extends Component {
             orderId: ""
         }
         return (orderDetails);
-        // axios({
-        //     method: "POST",
-        //     url: `${API_URL}/placeOrder`,
-        //     //headers : {"Content-Type" : "applicaton/json"},
-        //     data: orderDetails
-        // }).then((data)=>{
-        //     //this.setState({orderDetails:orderDetails})
-        //     console.log(data);
-        //     return orderDetails;
-        // }).catch((error)=>{console.log(error);});
-
-
-    }
-    // componentWillMount() {
-    //     Modal.setAppElement('body');
-    // }
+        }
+  
     handleChange=(event, field)=> {
         this.setState({
             [field]: event.target.value,
@@ -457,9 +417,108 @@ class Details extends Component {
             loginError: undefined
         });
     }
+    handelSingUpButtonClicked = () => {
+        this.setState({
+            isSingUpModalOpen: true,
+            isLoginModalOpen: false
+        });
+    }
+    responseSuccessGoogle=(response)=> {
+        debugger
+        let fName = response.profileObj.givenName;
+        let lName = response.profileObj.familyName;
+        let email = response.profileObj.email;
+        this.setState({
+            username: email,
+            password: response.profileObj.googleId,
+            firstName: fName,
+            lastName: lName
+        })
+        this.handleSingUp();
+    }
+    resetSingUpForm = () => {
+        this.setState({
+            isSingUpModalOpen: false,
+            username: '',
+            password: '',
+            firstName: "",
+            lastName: "",
+            singUpError: undefined
+        });
+    }
+    handleSingUp = () => {
+        debugger;
+        const { username, password, firstName, lastName } = this.state;
+        if(username.length==0 ){
+            window.alert("Enter email first!")
+            return;
+        }
+        if(password.length==0){
+            window.alert("Enter password first!");
+            return;
+        }
+        if(firstName.length==0){
+            window.alert("Enter first name first!");
+            return;
+        }
+        if(lastName.length==0){
+            window.alert("Enter last name first!");
+            return;
+        }
+        const obj = {
+            email: username,
+            password: password,
+            firstName: firstName,
+            lastName: lastName
+        }
+        axios({
+            method: 'POST',
+            url: `${API_URL}/userSignUp`,
+            header: { 'Content-Type': 'application/json' },
+            data: obj
+        }).then(result => {
+           debugger
+            if(result.data.data=="Use another email"){
+                window.alert("This email is already used, try with another email")
+                return;
+            }
+            localStorage.setItem("user", JSON.stringify(result.data.user));
+            localStorage.setItem("isLoggedIn", true);
+            this.setState({
+                userDetails: result.data.user,
+                isLogin: true,
+                loginError: undefined,
+                singUpError: undefined
+            });
+            this.resetSingUpForm();
+        }).catch(error => {
+            this.setState({
+                singUpError: 'Error in SingUp !!'
+            });
+            console.log(error);
+        });
+    }
+    responseFacebookSuingUp = (response) => {
+        //console.log(response)
+        if (response.status !== 'unknown') {
+            let name = response.name;
+            name = response.name.split(" ");
+            let fName = name[0];
+            let lName = name[1];
+            let email = response.email;
+            this.setState({
+                username: email,
+                password: response.id,
+                firstName: fName,
+                lastName: lName
+            })
+            this.handleSingUp();
+        }
+    }
+
     render() {
         //debugger;
-        const { loginError, username, password, isLoginModalOpen, thumb, restaurantCity, restaurantLocality, orderDetails, userDetails, email, name, mobileNo, address, restaurantName, cuisine, minPrice, contact, isMenuModalOpen, menu, totalPrice, isOrderDetailsModalOpen } = this.state;
+        const { isSingUpModalOpen, singUpError, firstName, lastName,loginError, username, password, isLoginModalOpen, thumb, restaurantCity, restaurantLocality, orderDetails, userDetails, email, name, mobileNo, address, restaurantName, cuisine, minPrice, contact, isMenuModalOpen, menu, totalPrice, isOrderDetailsModalOpen } = this.state;
 
         return (
             <div className="container   pt-3" style={{ "fontFamily": "Poppins", "color": "#192f60" }}>
@@ -638,9 +697,53 @@ class Details extends Component {
                                     <br />
                                     <input type="button" className="btn btn-primary" onClick={this.handleLogin} value="Login" />
                                     <input type="button" className="btn" onClick={this.resetLoginForm} value="Cancel" />
+                                    <br/>
+                                <hr/>
+                                <div className="text-center">
+                                    <p className="dontHaveAccount">Don't have account? <a className="signUpA pointer"  onClick={()=>this.handelSingUpButtonClicked()}>SignUp</a></p>
+                                </div>
                                 </form>
                             </Modal>
-
+                            <Modal isOpen={isSingUpModalOpen} style={customStyles}>
+                            <h3>User Singup</h3>
+                            <form>
+                                {
+                                    singUpError ? <div className="alert alert-danger">{singUpError}</div> : null
+                                }
+                                <label className="form-label">First Name:</label>
+                                <input type="text" value={firstName} className="form-control"  onChange={(event) => this.handleChange(event, 'firstName')} />
+                                <label className="form-label">Last Name:</label>
+                                <input type="text" value={lastName} className="form-control"  onChange={(event) => this.handleChange(event, 'lastName')} />
+                                <label className="form-label">email:</label>
+                                <input type="text" value={username}   className="form-control" onChange={(event) => this.handleChange(event, 'username')} />
+                                <label className="form-label">Password:</label>
+                                <input type="password" value={password} className="form-control"  onChange={(event) => this.handleChange(event, 'password')} />
+                                <br />
+                                <FacebookLogin
+                                    appId="4356797374331461"
+                                    autoLoad={false}
+                                    fields="name,email,picture"
+                                    onClick={this.componentClicked}
+                                    callback={this.responseFacebookSuingUp}
+                                    icon="bi bi-facebook p-2 m-2"
+                                    cssClass="fb"
+                                />
+                                <br />
+                                <Googlelogin
+                                    clientId="946053029267-3osdvlorecoptosi14vh65g4k982ncvi.apps.googleusercontent.com"
+                                    buttonText="Continue with Google"
+                                    onSuccess={this.responseSuccessGoogle}
+                                    onFailure={this.responseFailureGoogle}
+                                    cookiePolicy={'single_host_origin'}
+                                    className="google"
+                                />
+                                <br />
+                                <br />
+                                <input type="button" className="btn btn-primary" onClick={this.handleSingUp} value="Sing Up" />
+                                <input type="button" className="btn" onClick={this.resetSingUpForm} value="Cancel" />
+                               
+                            </form>
+                        </Modal>
                         </div>
                         :
                         <div className="text-dark m-5 p-5 fs-6 text-center"> Loading... {console.warn("Restaurant Id not found !")}</div>
