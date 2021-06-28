@@ -142,6 +142,7 @@ margin:0;
     letter-spacing: normal;
     text-align: left;
     color: #8c96ab;
+    max-width: 80%;
 }
 ::placeholder {
     text-align: center;
