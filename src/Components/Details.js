@@ -33,6 +33,23 @@ const customStyles = {
         "margin-top":"5px"
         }
 };
+const customStyles1 = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        boxShadow: '0 3px 6px 0 rgba(0, 0, 0, 0.16)',
+        zIndex: '1000',
+        maxWidth:"500px",
+        width:"100%",
+        "margin-top":"5px",
+        maxHeight:"85%"
+       
+        }
+};
 
 class Details extends Component {
     constructor() {
@@ -577,7 +594,7 @@ class Details extends Component {
                                     </TabPanel>
                                 </Tabs>
                             </div>
-                            <Modal isOpen={isMenuModalOpen} style={customStyles} className={""}>
+                            <Modal isOpen={isMenuModalOpen} style={customStyles1} className={""}>
                                 <h3 className='menuHeading'>{restaurantName}</h3>
                                 <button onClick={() => this.closeMenu()} className="btn btn-light closeBtn">&times;</button>
                                 <ul className="menu">

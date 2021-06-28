@@ -55,7 +55,7 @@ class HomePageTopSection extends Component {
         });
     }
     goToRestaurant = (item) => {
-        debugger;
+        //debugger;
         this.props.history.push(`/details?id=${item._id}`);
     }
 
@@ -67,7 +67,7 @@ class HomePageTopSection extends Component {
             return null;
         }
         return (
-            <ul className="suggestionsBox">
+            <ul className="suggestionsBox col-lg-5">
                 {
                     suggestions.map((item, index) => {
                         return (

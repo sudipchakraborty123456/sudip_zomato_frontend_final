@@ -3,8 +3,8 @@
     border-radius: 0.8rem;
     position: absolute;
     overflow: auto;
-    top: 45px;
-    width: 480px;
+    top: auto;
+    /* width: 480px; */
     visibility: visible;
     opacity: 1;
     border: 1px solid rgb(207, 207, 207);
@@ -13,6 +13,7 @@
     padding: 15px 0px;
     background: white;
     z-index: 1;
+    margin-top:5px
 }
 
 .suggestionsBox li {
@@ -34,7 +35,7 @@
     transform: none;
     opacity: 1;
     will-change: transform, opacity;
-    border-radius: 5px;
+    border-radius: 50%;
     filter: unset;
     transition: opacity 0.25s ease 0s, transform 0.25s ease 0s;
 }
