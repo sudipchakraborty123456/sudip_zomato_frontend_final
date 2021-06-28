@@ -556,7 +556,7 @@ class Details extends Component {
 
                             <div className="resName">
                                 <h1 className="resNameHeading">{restaurantName}</h1>
-                                <button className="btn btn-danger float-end" onClick={() => this.handelPlaceOrderClicked()}>Place Online Order</button>
+                                <button className="btn btn-danger float-end" style={{"margin-top":"10px"}} onClick={() => this.handelPlaceOrderClicked()}>Place Online Order</button>
                             </div>
 
 
